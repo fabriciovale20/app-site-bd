@@ -1,12 +1,15 @@
 from flask import Flask, render_template, request
 import mysql.connector
+import config_key as key
 
 app = Flask(__name__) # Inicialização da Aplicação WEB
+
 conexao = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='passwordsql',
-    database='app_bd_teste'
+    host = key.MYSQLHOST,
+    port = key.MYSQLPORT,
+    user = key.MYSQLUSER,
+    password = key.MYSQLPASSWORD,
+    db = key.MYSQLDATABASE,
 )
 
 cursor = conexao.cursor()
@@ -22,7 +25,12 @@ def home():
         cursor.execute(comando)
         conexao.commit()
 
-    return render_template('home.html')
+    comando = f'SELECT * FROM mensagens'
+    cursor.execute(comando)
+    lista_mensagens = cursor.fetchall()
+    print(lista_mensagens)
+
+    return render_template('home.html', lista_mensagens=lista_mensagens)
 
 if __name__ == '__main__':
     app.run(debug=True)

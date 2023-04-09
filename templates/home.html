@@ -12,5 +12,12 @@
         <p><input style="text-align:center" type="text" name="msg" id="msg"></p>
         <p><button type="submit" class="btn btn-dark">Entrar</button></p>
     </form>
+    <br>
+    <p><button type="submit" class="btn btn-dark">Lista de Mensagens</button></p>
+    {% for msg in lista_mensagens %}
+        <p>Mensagem {{ msg[0] }}</p>
+        <p>{{ msg[1] }}</p>
+        <br>
+    {% endfor %}
 </body>
 </html>
