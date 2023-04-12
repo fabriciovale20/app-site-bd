@@ -1,15 +1,26 @@
 from flask import Flask, render_template, request
 import mysql.connector
 import config_key as key
+import psycopg2
 
 app = Flask(__name__) # Inicialização da Aplicação WEB
 
-conexao = mysql.connector.connect(
+# BANCO DE DADOS MYSQL
+# conexao = mysql.connector.connect(
+#     host = key.MYSQLHOST,
+#     port = key.MYSQLPORT,
+#     user = key.MYSQLUSER,
+#     password = key.MYSQLPASSWORD,
+#     db = key.MYSQLDATABASE,
+# )
+
+# BANCO DE DADOS POSTGRESQL
+conexao = psycopg2.connect(
     host = key.MYSQLHOST,
     port = key.MYSQLPORT,
     user = key.MYSQLUSER,
     password = key.MYSQLPASSWORD,
-    db = key.MYSQLDATABASE,
+    database = key.MYSQLDATABASE,
 )
 
 cursor = conexao.cursor()
@@ -21,7 +32,7 @@ def home():
         print(msg)
 
         # Adicionando as variáveis a Classe Aluno
-        comando = f'''INSERT INTO mensagens (mensagem) VALUES ("{msg}");'''
+        comando = f"""INSERT INTO mensagens (mensagem) VALUES ('{msg}');"""
         cursor.execute(comando)
         conexao.commit()
 
